@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Code Explanation Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0d1117;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #161b22;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+        h2 {
+            color: #58a6ff;
+        }
+        button {
+            background: linear-gradient(135deg, #1f6feb, #3b82f6);
+            border: none;
+            padding: 12px 18px;
+            margin: 10px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #1f6feb;
+            transform: scale(1.05);
+        }
+        pre, textarea {
+            background: #21262d;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 14px;
+            margin-top: 10px;
+            border: 1px solid #30363d;
+        }
+        select {
+            background: #21262d;
+            color: white;
+            border: 1px solid #30363d;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        ul {
+            text-align: left;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>AI-Powered Code Explanation Tool</h2>
+        <select id="language">
+            <option value="react">React</option>
+            <option value="javascript">JavaScript</option>
+            <option value="css">CSS</option>
+            <option value="java">Java</option>
+            <option value="cpp">C++</option>
+        </select>
+        <button onclick="showCode()">Show Code</button>
+        <button onclick="showExplanation()">Explain Code</button>
+        
+        <pre id="code" class="hidden"></pre>
+        <div id="explanation" class="hidden"></div>
+        <div id="how-it-works">
+            <h3>How It Works</h3>
+            <ul>
+                <li>Select a programming language from the dropdown.</li>
+                <li>Click "Show Code" to display a sample code snippet.</li>
+                <li>Click "Explain Code" to get an AI-powered explanation.</li>
+                <li>Type or paste JavaScript code into the text area and click "Run Code" to see the output.</li>
+            </ul>
+        </div>
+        
+        <h3>Try Your Own Code</h3>
+        <textarea id="userCode" placeholder="Type or paste your JavaScript code here..."></textarea>
+        <button onclick="runUserCode()">Run Code</button>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        const codeSnippets = {
+            react: `// React Counter Component\nimport React, { useState } from 'react';\nfunction Counter() {\n    const [count, setCount] = useState(0);\n    return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;\n}\nexport default Counter;`,
+            javascript: `// JavaScript Function to Reverse a String\nfunction reverseString(str) {\n    return str.split('').reverse().join('');\n}\nconsole.log(reverseString('hello'));`,
+            css: `/* CSS Styling for a Button */\nbutton {\n    background-color: #007bff;\n    color: white;\n    padding: 10px 20px;\n    border: none;\n    border-radius: 5px;\n    cursor: pointer;\n}`,
+            java: `// Java Program to Print Fibonacci Series\npublic class Fibonacci {\n    public static void main(String[] args) {\n        int n1 = 0, n2 = 1, n3, i, count = 10;\n        System.out.print(n1 + " " + n2);\n        for (i = 2; i < count; i++) {\n            n3 = n1 + n2;\n            System.out.print(" " + n3);\n            n1 = n2;\n            n2 = n3;\n        }\n    }\n}`,
+            cpp: `// C++ Program for Factorial\n#include <iostream>\nusing namespace std;\nint factorial(int n) {\n    return (n == 1 || n == 0) ? 1 : n * factorial(n - 1);\n}\nint main() {\n    cout << "Factorial of 5 is: " << factorial(5);\n    return 0;\n}`
+        };
+
+        function showCode() {
+            const language = document.getElementById('language').value;
+            document.getElementById('code').textContent = codeSnippets[language];
+            document.getElementById('code').classList.remove('hidden');
+        }
+
+        function showExplanation() {
+            const language = document.getElementById('language').value;
+            document.getElementById('explanation').innerHTML = `<h3>Explanation</h3><p>This is an AI-generated explanation for ${language} code.</p>`;
+            document.getElementById('explanation').classList.remove('hidden');
+        }
+
+        function runUserCode() {
+            let code = document.getElementById("userCode").value;
+            let outputElement = document.getElementById("output");
+            try {
+                let result = new Function(code)();
+                outputElement.textContent = "Output: " + result;
+            } catch (error) {
+                outputElement.textContent = "Error: " + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

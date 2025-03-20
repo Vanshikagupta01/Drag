@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern UI Components</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0d1117;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        header {
+            background: #161b22;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        nav button {
+            background: #1f6feb;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        nav button:hover {
+            background: #3b82f6;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #161b22;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+        .custom-button {
+            background: #1f6feb;
+            color: white;
+            border: none;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .custom-button:hover {
+            background: #3b82f6;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .card {
+            background: #21262d;
+            padding: 20px;
+            border-radius: 10px;
+            width: 320px;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: white;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus, textarea:focus {
+            border-color: #1f6feb;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Modern UI Components</h1>
+        <nav>
+            <button onclick="document.getElementById('buttons-section').scrollIntoView()">Buttons</button>
+            <button onclick="document.getElementById('inputs-section').scrollIntoView()">Inputs</button>
+            <button onclick="document.getElementById('cards-section').scrollIntoView()">Cards</button>
+            <button onclick="document.getElementById('layout-section').scrollIntoView()">Layout</button>
+        </nav>
+    </header>
+
+    <div id="buttons-section" class="container">
+        <h2>Buttons</h2>
+        <button class="custom-button">Primary Button</button>
+        <button class="custom-button" style="background: #ff4081;">Secondary Button</button>
+        <button class="custom-button" style="background: #4caf50;">Success Button</button>
+    </div>
+
+    <div id="inputs-section" class="container">
+        <h2>Inputs</h2>
+        <label for="userInput">Your Thoughts:</label>
+        <textarea id="userInput" placeholder="Type something..."></textarea>
+    </div>
+
+    <div id="cards-section" class="container">
+        <h2>Cards</h2>
+        <div class="card-container" id="new-cards">
+            <div class="card">
+                <h3>Modern Card UI</h3>
+                <p>This is a stylish and simple card component designed with modern UI principles.</p>
+            </div>
+        </div>
+        <button class="custom-button" onclick="createCard()">Create New Card</button>
+        <button class="custom-button" onclick="createFormCard()">Create Form Card</button>
+    </div>
+
+    <script>
+        function createCard() {
+            let newCard = document.createElement('div');
+            newCard.className = 'card';
+            newCard.innerHTML = '<h3>New Card</h3><p>This is a dynamically created card.</p>';
+            document.getElementById('new-cards').appendChild(newCard);
+        }
+
+        function createFormCard() {
+            let card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <h3>Form Card</h3>
+                <label for='name'>Name:</label>
+                <input type='text' id='name' placeholder='Enter your name'>
+                <label for='email'>Email:</label>
+                <input type='email' id='email' placeholder='Enter your email'>
+                <label for='message'>Message:</label>
+                <textarea id='message' placeholder='Enter your message'></textarea>
+                <button class='custom-button' onclick='submitForm()'>Submit</button>
+            `;
+            document.getElementById('new-cards').appendChild(card);
+        }
+
+        function submitForm() {
+            alert('Form submitted successfully!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Drag & Drop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body {
+            text-align: center;
+            background: #121212; /* Pure Black Background */
+            padding: 20px;
+            color: #fff;
+        }
+
+        /* Neon Title */
+        h1 {
+            font-size: 34px;
+            font-weight: 600;
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #08f;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 320px;
+            max-width: 350px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #1e1e1e;
+            box-shadow: 0px 6px 15px rgba(0, 255, 255, 0.2);
+            transition: 0.3s;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff;
+            margin-bottom: 15px;
+        }
+
+        /* --- Improved Cards for Dark Theme --- */
+        .card {
+            background: #232323;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: grab;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0px 4px 12px rgba(0, 255, 255, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 18px rgba(0, 255, 255, 0.4);
+        }
+
+        .card img {
+            width: 100px;
+            border-radius: 8px;
+        }
+
+        .card p {
+            font-size: 16px;
+            font-weight: 500;
+            color: #0ff;
+        }
+
+        /* --- Drag & Drop Box --- */
+        #drag-card {
+            border: 2px dashed rgba(0, 255, 255, 0.6);
+            text-align: center;
+            min-height: 200px;
+            padding: 20px;
+            transition: 0.3s;
+            color: #0ff;
+        }
+
+        #drag-card.drag-over {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #0ff;
+        }
+
+        #drag-card img {
+            max-width: 120px;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+
+        pre {
+            background: #101010;
+            color: #0ff;
+            padding: 15px;
+            text-align: left;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0px 6px 12px rgba(0, 255, 255, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <h1>Advanced Drag & Drop</h1>
+    <div class="container">
+        <div class="column" id="select-card">
+            <h2>Select a Card</h2>
+            <div class="card" draggable="true" ondragstart="drag(event, 'images/butterfly.jpg')">
+                <img src="images/butterfly.jpg" alt="Butterfly">
+                <p>Butterfly Card</p>
+            </div>
+            <div class="card" draggable="true" ondragstart="drag(event, 'images/flowers.jpg')">
+                <img src="images/flowers.jpg" alt="Flower">
+                <p>Flower Card</p>
+            </div>
+            <div class="card" draggable="true" ondragstart="drag(event, 'images/mountain.jpg')">
+                <img src="images/mountain.jpg" alt="Mountain">
+                <p>Mountain Card</p>
+            </div>
+            <div class="card" draggable="true" ondragstart="drag(event, 'images/ocean.jpg')">
+                <img src="images/ocean.jpg" alt="Ocean">
+                <p>Ocean Card</p>
+            </div>
+        </div>
+        <div class="column" id="drag-card" ondragover="allowDrop(event)" ondrop="drop(event)">
+            <h2>Drag a Card</h2>
+            <p>Drop here to generate code.</p>
+        </div>
+        <div class="column" id="download-code">
+            <h2>Generated Code</h2>
+            <pre id="code-output">Drag an image to see its code here...</pre>
+        </div>
+    </div>
+
+    <script>
+        function allowDrop(event) {
+            event.preventDefault();
+            document.getElementById("drag-card").classList.add("drag-over");
+        }
+
+        function drag(event, imageUrl) {
+            event.dataTransfer.setData("image", imageUrl);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            let dropZone = document.getElementById("drag-card");
+            dropZone.classList.remove("drag-over");
+
+            let imageUrl = event.dataTransfer.getData("image");
+
+            if (imageUrl) {
+                let imageElement = document.createElement("img");
+                imageElement.src = imageUrl;
+                imageElement.alt = "Dropped Image";
+                imageElement.style.maxWidth = "120px";
+
+                dropZone.innerHTML = "<h2>Drag a Card</h2>";
+                dropZone.appendChild(imageElement);
+
+                document.getElementById("code-output").textContent = 
+                    `<!DOCTYPE html>\n<html>\n<head>\n    <title>Dropped Image</title>\n</head>\n<body>\n    <img src="${imageUrl}" alt="Dropped Image">\n</body>\n</html>`;
+            }
+        }
+    </script>
+</body>
+</html>
